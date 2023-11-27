@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import GridPostList from "./GridPostList";
-import SearchResult from "@/components/shared/SearchResult";
 import useDebounce from "@/hooks/useDebouce";
 import {
   useGetPosts,
@@ -9,6 +8,21 @@ import {
 } from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 import { useInView } from "react-intersection-observer";
+
+const SearchResults = ({
+  isSearchFetching,
+  searchedPosts,
+}: SearchResultProps) => {
+  if (isSearchFetching) {
+    return <Loader />;
+  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+    return <GridPostList posts={searchedPosts.documents} />;
+  } else {
+    return (
+      <p className="text-light-4 mt-10 text-center w-full">No results found</p>
+    );
+  }
+};
 
 const Explore = () => {
   const { ref, inView } = useInView();
@@ -75,7 +89,7 @@ const Explore = () => {
 
       <div className="flex flex-wrap gap-9 max-w-5xl w-full">
         {shouldShowSearchResult ? (
-          <SearchResult
+          <SearchResults
             isSearchFetching={isSearchFetching}
             searchedPosts={searchedPosts}
           />
