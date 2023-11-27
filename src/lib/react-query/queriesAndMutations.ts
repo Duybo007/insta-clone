@@ -7,7 +7,6 @@ import {
   } from "@tanstack/react-query";
 import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost } from "../appwrite/api";
 import { QUERY_KEYS } from "./queryKeys";
-import { string } from "zod";
 
 export const useCreateUserAccount = () => {
     return useMutation({
@@ -147,7 +146,7 @@ export const useDeletePost = () => {
 
   return useMutation({
     mutationFn: ({postId, imageId} : {postId: string, imageId: string} ) => deletePost(postId, imageId),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey:[QUERY_KEYS.GET_RECENT_POSTS]
       });

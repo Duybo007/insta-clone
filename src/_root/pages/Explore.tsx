@@ -9,6 +9,11 @@ import {
 import Loader from "@/components/shared/Loader";
 import { useInView } from "react-intersection-observer";
 
+export type SearchResultProps = {
+  isSearchFetching: boolean;
+  searchedPosts: any;
+};
+
 const SearchResults = ({
   isSearchFetching,
   searchedPosts,
@@ -97,6 +102,7 @@ const Explore = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
+            item &&
             <GridPostList key={`page-${index}`} posts={item.documents} />
           ))
         )}
